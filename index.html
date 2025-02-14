@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Mi Amor ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+            text-align: center;
+        }
+        #container {
+            position: relative;
+            z-index: 2;
+        }
+        h1 {
+            font-size: 3em;
+            animation: heartbeat 2s infinite;
+        }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        p {
+            font-size: 1.5em;
+        }
+        button {
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #e84118;
+        }
+        #letter {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            color: #333;
+            max-width: 500px;
+            height: 300px;
+            overflow: auto;
+            margin: 20px auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.5s ease-in-out;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Feliz San Valentín, mi amor ❤️</h1>
+        <p>Sos la persona más especial en mi vida.</p>
+        <button onclick="openLetter()">Abrir!!</button>
+        <div id="letter">
+            <h2>Para Vos Preciosa</h2>
+            <p>
+                <br><br>
+                Desde el momento en que te conocí, supe que eras alguien especial. Cada día con vos es un regalo, un mimo al alma y al corazón. Sos mi razón para reír, mi inspiración y mi mayor apoyo.<br><br>
+                Hoy, en este día tan especial, quiero recordarte lo mucho que te amo y lo afortunado que soy de tenerte en mi vida. Prometo amarte, cuidarte y estar a tu lado en todo lo que nos queda por vivir.<br><br>
+                Te amo más de lo que las palabras pueden expresar.<br><br>
+                ❤️❤️❤️❤️❤️❤️❤️
+            </p>
+        </div>
+    </div>
+    <canvas id="confetti"></canvas>
+    <script>
+        function openLetter() {
+            const letter = document.getElementById('letter');
+            letter.style.display = 'block';
+            letter.style.opacity = '1';
+            startConfetti();
+        }
+
+        const canvas = document.getElementById('confetti');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let confettiPieces = [];
+
+        class Confetti {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.size = Math.random() * 10 + 5;
+                this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                this.speed = Math.random() * 3 + 2;
+                this.rotation = Math.random() * 360;
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+            update() {
+                this.y += this.speed;
+                this.rotation += 0.1;
+                if (this.y > canvas.height) {
+                    this.y = -this.size;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+        }
+
+        function initConfetti() {
+            for (let i = 0; i < 150; i++) {
+                confettiPieces.push(new Confetti());
+            }
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettiPieces.forEach(confetto => {
+                confetto.draw();
+                confetto.update();
+            });
+            requestAnimationFrame(animateConfetti);
+        }
+
+        function startConfetti() {
+            initConfetti();
+            animateConfetti();
+        }
+    </script>
+</body>
+</html>
